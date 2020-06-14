@@ -3,6 +3,18 @@ const ctx = cvs.getContext("2d");
 ctx.canvas.width = window.innerWidth - 100;
 ctx.canvas.height = window.innerHeight - 10;
 
+var startTime, endTime;
+
+function start() {
+    startTime = performance.now();
+};
+
+function end() {
+    endTime = performance.now();
+    var timeDiff = endTime - startTime; //in ms
+    return "Runtime: " + timeDiff / 1000 + " seconds";
+}
+
 let fraction = false;
 let fract_nums = [];
 
@@ -31,6 +43,7 @@ greater_than_or_equal.onclick = function() {
 
 //Calculate probabilities
 Calc_Button.onclick = function() {
+    start();
     document.getElementById("results").innerHTML = "";
     var user_input = document.getElementById("user_input").value;
     user_input = user_input.toString().split(",");
@@ -46,6 +59,8 @@ Calc_Button.onclick = function() {
     console.log("Calculating...");
     CalcTheoretical(user_input[1], user_input[3], user_input[0]);
     CalcExperimental(user_input[0], user_input[1], user_input[2], user_input[3]);
+
+    document.getElementById("runtime").innerHTML = end();
 
 }
 
@@ -72,9 +87,8 @@ function CalcExperimental(x, n, s, p) {
     let sim = [];
     let success_count = 0;
     let success_rate = 0;
-    if (fraction == false) {
-        let num_db = countDecimals(p);
-    }
+    let num_db = countDecimals(p);
+
     output = document.createElement("p");
     var str = "";
     var rand;
@@ -86,7 +100,7 @@ function CalcExperimental(x, n, s, p) {
                 success_count++;
             }
             if (fraction) {
-                rand = Math.round(rand * fract_nums[1]);
+                rand = Math.floor(rand * fract_nums[1]);
             } else {
                 rand = Math.floor(rand * Math.pow(10, num_db));
             }

@@ -8,6 +8,10 @@ body {
     margin-top: 5%;
 }
 
+#runtime {
+    color: rgb(135, 88, 167)
+}
+
 .category_button button {
     background-color: rgb(195, 248, 184);
     ;
