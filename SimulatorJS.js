@@ -83,7 +83,7 @@ function CalcTheoretical(n, p, x) {
 
 function CalcExperimental(x, n, s, p) {
 
-    let trial = [];
+    let trial = new Array(s);
     let sim = [];
     let success_count = 0;
     let success_rate = 0;
@@ -94,6 +94,7 @@ function CalcExperimental(x, n, s, p) {
     var rand;
     for (var r = 0; r < s; r++) { //# of Simulations
         success_count = 0;
+        trial[r] = [];
         for (var c = 0; c < n; c++) { ///# of Trials
             rand = Math.random();
             if (rand < p) {
@@ -104,21 +105,21 @@ function CalcExperimental(x, n, s, p) {
             } else {
                 rand = Math.floor(rand * Math.pow(10, num_db));
             }
-            trial.push(rand);
+            trial[r].push(rand);
         }
         /*document.getElementById("results").innerHTML += "<br>";
         document.getElementById("results").innerHTML += trial;*/
-        str += "<br>" + trial;
+        str += "<br>" + trial[r];
         if (isSuccessful(category, success_count, x)) {
             success_rate++;
             str += " (Success) ";
         }
         // document.getElementById("results").innerHTML += "   (Success)"
-        trial = [];
     }
     success_rate = success_rate / s;
     str = "Experimental Probability: " + success_rate + " <br> --------------------------------------- <br> Raw Data: <br>" + str;
     document.getElementById("results").innerHTML += str;
+    makeTable(trial);
 }
 
 var isSuccessful = function(cat, num, x) {
@@ -166,4 +167,19 @@ var countDecimals = function(value) {
     if (Math.floor(value) !== value)
         return value.toString().split(".")[1].length || 0;
     return 0;
+}
+
+function makeTable(array) {
+    var table = document.getElementById("data_table");
+    table.innerHTML = "";
+    for (var i = 0; i < array.length; i++) {
+        var row = document.createElement('tr');
+        for (var j = 0; j < array[i].length; j++) {
+            var cell = document.createElement('td');
+            cell.textContent = array[i][j];
+            row.appendChild(cell);
+        }
+        table.appendChild(row);
+    }
+    //document.body.appendChild(table);
 }

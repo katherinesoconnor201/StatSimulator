@@ -39,3 +39,15 @@ body {
     min-width: 80%;
     max-width: max-content;
 }
+
+#data_table {
+    display: block;
+    border-collapse: collapse;
+}
+
+#data_table table,
+th,
+td {
+    border: 1px solid black;
+    background-color: rgb(233, 206, 252);
+}
